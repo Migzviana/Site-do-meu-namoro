@@ -20,7 +20,7 @@ export default function MonthPage() {
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const API = "https://server-amado.onrender.com";
+  const API = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
