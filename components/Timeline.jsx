@@ -37,13 +37,10 @@ export default function Timeline() {
             onMouseLeave={() => setActiveIndex(null)}
             onClick={() => setActiveIndex(activeIndex === i ? null : i)}
           >
-            {/* Bolinha da timeline */}
             <div className="absolute w-3 h-3 bg-pink-500 rounded-full -left-4.5 top-2" />
             
-            {/* Título do evento */}
             <p className="text-gray-600 font-semibold">{event.title}</p>
 
-            {/* Detalhes expansíveis */}
             <AnimatePresence>
               {activeIndex === i && (
                 <motion.div

@@ -37,10 +37,8 @@ export default function Login() {
   return (
     <div className="relative h-screen flex items-center justify-center bg-linear-to-b from-pink-100 to-white">
       
-      {/* FUNDO BONITO */}
       <RomanticGlow />
 
-      {/* CARD */}
       <div className="
         relative
         bg-white/80 backdrop-blur-lg
@@ -53,7 +51,6 @@ export default function Login() {
         border border-pink-200
       ">
 
-        {/* TÍTULO */}
         <h1 className="text-3xl font-bold text-center text-pink-600 mb-2">
           💖 Bem-vindos
         </h1>
@@ -62,7 +59,6 @@ export default function Login() {
           Nosso cantinho especial
         </p>
 
-        {/* INPUT EMAIL */}
         <input
           placeholder="Email"
           className="
@@ -79,7 +75,6 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* INPUT SENHA */}
         <input
           placeholder="Senha"
           type="password"
@@ -97,7 +92,6 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* BOTÃO */}
         <button
           onClick={login}
           className="

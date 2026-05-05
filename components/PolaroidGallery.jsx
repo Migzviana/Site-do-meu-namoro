@@ -1,6 +1,6 @@
 import PolaroidPhoto from "./PolaroidPhoto";
 
-export default function PolaroidGallery({ photos }) {
+export default function PolaroidGallery({ items }) {
   return (
     <div className="
       relative 
@@ -10,14 +10,18 @@ export default function PolaroidGallery({ photos }) {
       gap-6 
       mt-10
     ">
-      {photos.map((photo, i) => (
+      {items.map((item, i) => (
         <div
           key={i}
           className={`
             ${i % 2 === 0 ? "mt-4" : "-mt-4"}
           `}
         >
-          <PolaroidPhoto src={photo.src} caption={photo.caption} />
+          <PolaroidPhoto
+            src={item.src}
+            caption={item.caption}
+            type={item.type}
+          />
         </div>
       ))}
     </div>

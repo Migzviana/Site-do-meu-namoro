@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 function randomRotation() {
-  return Math.random() * 12 - 6; // mais suave (melhor no mobile)
+  return Math.random() * 12 - 6;
 }
 
-export default function PolaroidPhoto({ src, caption }) {
+export default function PolaroidPhoto({ src, caption, type }) {
   const [open, setOpen] = useState(false);
   const rotation = randomRotation();
 
@@ -26,16 +26,23 @@ export default function PolaroidPhoto({ src, caption }) {
           cursor-pointer 
           shadow-lg
           w-full 
-          max-w-45 
-          sm:max-w-55 
-          md:max-w-65
+          max-w-44 
+          sm:max-w-56 
+          md:max-w-64
         "
       >
-        <img
-          src={src}
-          alt="foto"
-          className="w-full h-40 sm:h-44 md:h-48 object-cover rounded-sm"
-        />
+        {type === "video" ? (
+          <video
+            src={src}
+            className="w-full h-40 sm:h-44 md:h-48 object-cover rounded-sm"
+          />
+        ) : (
+          <img
+            src={src}
+            alt="foto"
+            className="w-full h-40 sm:h-44 md:h-48 object-cover rounded-sm"
+          />
+        )}
 
         {caption && (
           <p className="text-center mt-2 text-gray-600 text-xs sm:text-sm italic">
@@ -63,10 +70,18 @@ export default function PolaroidPhoto({ src, caption }) {
             "
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={src}
-              className="w-full max-h-[70vh] object-contain rounded"
-            />
+            {type === "video" ? (
+              <video
+                src={src}
+                controls
+                className="w-full max-h-[70vh] rounded"
+              />
+            ) : (
+              <img
+                src={src}
+                className="w-full max-h-[70vh] object-contain rounded"
+              />
+            )}
 
             {caption && (
               <p className="text-center mt-3 text-gray-700 text-sm sm:text-base">

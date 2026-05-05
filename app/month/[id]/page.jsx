@@ -17,7 +17,7 @@ export default function MonthPage() {
   const [memories, setMemories] = useState([]);
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null); // 🔥 NOVO
+  const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const API = "https://server-amado.onrender.com";
@@ -65,7 +65,7 @@ export default function MonthPage() {
     }
 
     if (!text.trim() && !file) {
-      alert("Escreva algo ou envie uma foto");
+      alert("Escreva algo ou envie uma mídia");
       return;
     }
 
@@ -76,7 +76,7 @@ export default function MonthPage() {
     form.append("month", id);
 
     if (file) {
-      form.append("image", file);
+      form.append("media", file);
     }
 
     try {
@@ -92,7 +92,7 @@ export default function MonthPage() {
 
       setText("");
       setFile(null);
-      setPreview(null); // 🔥 LIMPA PREVIEW
+      setPreview(null);
 
       await loadMemories();
     } catch (err) {
@@ -116,42 +116,40 @@ export default function MonthPage() {
     );
   }
 
-  const photos = memories
-    .filter((m) => m.imageUrl)
+  const mediaItems = memories
+    .filter((m) => m.mediaUrl)
     .map((m) => ({
-      src: m.imageUrl,
+      src: m.mediaUrl,
       caption: m.message || "",
+      type: m.mediaType,
     }));
 
-  const texts = memories.filter((m) => m.message && !m.imageUrl);
+  const texts = memories.filter((m) => m.message && !m.mediaUrl);
 
   return (
     <div className="min-h-screen bg-pink-50 p-4 sm:p-6 md:p-10">
-      <h1 className="text-4xl font-bold text-center text-pink-600 mb-10">
+      <h1 className="text-3xl sm:text-4xl font-bold text-center text-pink-600 mb-10">
         Memórias do mês {id}
       </h1>
 
-      {/* FORM */}
-      <div className="max-w-xl mx-auto bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-xl mb-10 border border-pink-200 animate-fade-in">
-        <h2 className="text-xl font-semibold mb-4 text-pink-600">
+      <div className="max-w-xl mx-auto bg-white/80 backdrop-blur-lg p-5 sm:p-6 rounded-2xl shadow-xl mb-10 border border-pink-200">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 text-pink-600">
           Nova memória 💕
         </h2>
 
-        {/* TEXTO */}
         <textarea
-          className="w-full border border-pink-200 rounded-xl p-3 mb-4 resize-none outline-none focus:ring-2 focus:ring-pink-300 transition"
+          className="w-full border border-pink-200 rounded-xl p-3 mb-4 resize-none outline-none focus:ring-2 focus:ring-pink-300 transition text-sm sm:text-base"
           placeholder="Escreva algo especial..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
 
-        {/* INPUT FILE */}
         <div className="mb-4">
-          <label className="flex items-center justify-center gap-2 cursor-pointer border border-dashed border-pink-300 rounded-xl p-4 text-pink-500 hover:bg-pink-50 transition">
-            📸 Escolher foto
+          <label className="flex items-center justify-center gap-2 cursor-pointer border border-dashed border-pink-300 rounded-xl p-4 text-pink-500 hover:bg-pink-50 transition text-sm sm:text-base">
+            📸 Escolher foto ou vídeo
             <input
               type="file"
-              accept="image/*"
+              accept="image/*,video/*"
               onChange={(e) => {
                 const selected = e.target.files[0];
                 setFile(selected);
@@ -165,49 +163,53 @@ export default function MonthPage() {
           </label>
 
           {file && (
-            <p className="text-sm text-gray-500 mt-2 text-center">
+            <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center break-all">
               {file.name}
             </p>
           )}
 
-          {/* PREVIEW */}
           {preview && (
             <div className="mt-4 flex justify-center">
-              <img
-                src={preview}
-                alt="preview"
-                className="w-40 h-40 object-cover rounded-xl shadow"
-              />
+              {file?.type.startsWith("video") ? (
+                <video
+                  src={preview}
+                  controls
+                  className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-xl shadow"
+                />
+              ) : (
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-xl shadow"
+                />
+              )}
             </div>
           )}
         </div>
 
-        {/* BOTÃO */}
         <button
           onClick={sendMemory}
           disabled={loading}
-          className="w-full bg-linear-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 active:scale-95 transition text-white p-3 rounded-xl font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-linear-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 active:scale-95 transition text-white p-3 rounded-xl font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
         >
           {loading ? "Enviando..." : "Postar memória 💖"}
         </button>
       </div>
 
-      {/* GALERIA */}
-      {photos.length > 0 && (
-        <div className="animate-fade-in">
-          <PolaroidGallery photos={photos} />
+      {mediaItems.length > 0 && (
+        <div>
+          <PolaroidGallery items={mediaItems} />
         </div>
       )}
 
-      {/* TEXTOS */}
       {texts.length > 0 && (
-        <div className="mt-10 max-w-2xl mx-auto space-y-4 animate-fade-in">
+        <div className="mt-10 max-w-2xl mx-auto space-y-4">
           {texts.map((m) => (
             <div
               key={m.id}
               className="bg-white p-4 rounded-xl shadow text-center"
             >
-              <p className="text-gray-700">{m.message}</p>
+              <p className="text-gray-700 text-sm sm:text-base">{m.message}</p>
             </div>
           ))}
         </div>
