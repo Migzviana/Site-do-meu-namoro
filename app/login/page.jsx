@@ -11,7 +11,7 @@ export default function Login() {
 
   async function login() {
     try {
-      const res = await fetch("https://server-namoro.onrender.com /login", {
+      const res = await fetch("https://server-namoro.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
