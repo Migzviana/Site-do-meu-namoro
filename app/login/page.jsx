@@ -11,7 +11,7 @@ export default function Login() {
 
   async function login() {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      const res = await fetch("https://0e9c-2804-29f0-9180-eba-80eb-383d-8da2-235e.ngrok-free.app /login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +110,6 @@ export default function Login() {
         >
           Entrar
         </button>
-
       </div>
     </div>
   );

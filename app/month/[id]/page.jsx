@@ -201,7 +201,7 @@ export default function MonthPage() {
           <PolaroidGallery items={mediaItems} />
         </div>
       )}
-
+      
       {texts.length > 0 && (
         <div className="mt-10 max-w-2xl mx-auto space-y-4">
           {texts.map((m) => (
